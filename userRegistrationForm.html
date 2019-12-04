@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Registration</title>
+
+	<script language="javascript">
+		var check =true;
+		function validate(form)
+			{
+				validateFirstName(form.firstName.value);
+				validateLastName(form.lastName.value);
+				validateUsername(form.username.value);
+				validatePassword(form.password.value);
+				validateCPassword(form.password.value, form.cpassword.value);
+				validateEmail(form.email.value);
+				validatePhone(form.phone.value);
+
+				if (check==true) return true;
+					else return false;
+			}
+
+			function validateFirstName(field){
+				if (field=="")  {
+					check=false;
+					return document.getElementById("error1").innerHTML="First Name Must be Entered";
+				}
+
+				else if (/[^a-zA-Z- .]/.test(field)){
+					 check = false;
+					return document.getElementById("error1").innerHTML="Invalid Name, Only Alphabets Are Allowed In First Name.";
+				} 
+			}
+			
+			function validateLastName(field){
+				if (field=="") {
+					 check=false;
+					return document.getElementById("error2").innerHTML="No Surename was Entered";
+					
+				}
+				else if (/[^a-zA-Z-.]/.test(field)) {
+					 check=false;
+					 return document.getElementById("error2").innerHTML="Invalid data, Only alphabets are allowed in Last Name.";	
+				}
+			}
+			
+			function validateUsername(field){
+				if (field == ""){
+					check = false;
+					return document.getElementById("error3").innerHTML="No Username Was Entered";
+				}
+				else if (field.length < 5) {
+					check = false;
+					return document.getElementById("error3").innerHTML="Username Must be at least 5 Characters";
+				}
+				else if (/[^a-zA-Z0-9_-]/.test(field)){
+					check = false;
+				 	return document.getElementById("error3").innerHTML="Only a-z, A-Z, 0-9, - and _ allowed in Username";
+				}
+			}
+
+			function validatePassword(field){
+				if (field == ""){
+					check = false;
+				 	return document.getElementById("error4").innerHTML="No Password Was Entered";
+				}
+				else if(field.length < 6){ 
+				    check = false;
+				 	return document.getElementById("error4").innerHTML= "Password Must be at least 6 characters";
+				}
+				else if (!/[a-z]/.test(field) ||!/[A-Z]/.test(field) ||!/[0-9]/.test(field)){
+				 	check = false;
+				 	return document.getElementById("error4").innerHTML="Password Require one each of a-z, A-Z, 0-9";
+				}	
+			}
+
+			function validateCPassword(field1, field2){
+				if (field1 != field2) {
+					check = false;
+				 	return document.getElementById("error5").innerHTML= "Password mismatched";
+				}	
+			}
+
+			function validateEmail(field){
+				if(field == ""){
+					check = false;
+				 	return document.getElementById("error6").innerHTML="No Email Was Enterd";
+				}
+				else if (!/([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(field)){
+					check = false;
+				 	return document.getElementById("error6").innerHTML="Invalid Email Address";
+				}
+			}
+
+			function validatePhone(field){
+				if (field!="" && /[^0-9+-.]/.test(field)){
+					check = false;
+				 	return document.getElementById("error7").innerHTML="Invalid Phone Number, Please enter a valid phone number.";
+				}
+			}
+			
+    </script>
+
+    <style type="text/css">
+    	.alert{
+    		color: red;
+    		font-size:9;
+    	}
+    </style>
+</head>
+
+<body>
+	<form action="createUser.php" method="post" onSubmit="return validate(this)">
+		<table align="center" cellpadding="10px" style="background: #aabbcc; font-family: Arial; font-size: 20px">
+			<caption>User Registration Form</caption>
+
+			<tr>
+				<td><label for="firstName">First Name</label></td>
+				<td>
+					<div id="error1" class="alert"></div>
+					:<input type="text" id="firstName" name="firstName" />
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="lastName">Last Name</label></td>
+				<td>
+					<div id="error2" class="alert"></div>
+					:<input type="text" id="lastName" name="lastName" /></td>
+			</tr>
+
+			<tr>
+				<td><label for="dob">Date Of Birth</label></td>
+				<td>:<input type="Date" id="dob" name="dob" /></td>
+			</tr>
+
+			<tr>
+				<td><label for="gender">Gender</label></td>
+				<td>
+				:<input type="radio" id="male" name="gender" value="Male" />
+				<label for="male">Male </label>
+				<input type="radio" id="female" name="gender" value="Female" /> 
+				<label for="f">Female </label>
+				<input type="radio" id="other" name="gender" value="Other" /> 
+				<label for="other">Other </label>
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="address">Address</label></td>
+				<td>:
+				<textarea rows="5" cols="35" id="address" name="address">
+				</textarea>
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="postCode">Post Code</label></td>
+				<td>:<input type="text" id="postCode" name="postCode" /></td>
+			</tr>
+
+			<tr>
+				<td><label for="country">Country</label></td>
+				<td>:<input type="text" id="country" name="country" /></td>
+			</tr>
+
+			<tr>
+				<td><label for="email">Email </label> </td>
+				<td>
+					<div id="error6" class="alert"></div>
+					: <input type="text" id="email" name="email" />
+				</td>
+			</tr>
+
+			<tr>
+				<td><label for="phone">Phone</label></td>
+				<td>
+					<div id="error7" class="alert"></div>
+					:<input type="text" id="phone" name="phone" />
+				</td>
+			</tr>
+
+			<input type="hidden" id="userType" name="userType" value="user" />
+
+			<tr>
+				<td><label for="username">Username </label> </td>
+				<td>
+					<div id="error3" class="alert"></div>
+					:<input type="uname" id="username" name="username" />
+				</td>
+			</tr>
+
+			<tr> 
+				<td><label for="password">Password </label> </td>
+				<td>
+					<div id="error4" class="alert"></div>
+					:<input type="password" id="password" name="password" /> 
+				</td>
+			</tr>
+
+			<tr> 
+				<td><label for="cpassword">Confirm Password </label> </td>
+				<td>
+					<div id="error5" class="alert"></div>
+				 	:<input type="password" id="cpassword" name="cpassword" />
+				</td>
+			</tr>
+
+			<tr> 
+				<td colspan="2" align="center"><input type="submit" value="Register" /></td>
+			</tr>
+
+		</table>
+	</form>
+</body>
+</html>

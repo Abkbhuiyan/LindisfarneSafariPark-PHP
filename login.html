@@ -1,0 +1,75 @@
+<!Doctype html>
+<html>
+<head> 
+		<script language="javascript">
+		var check =true;
+		function validate(form)
+			{			
+				validateUsername(form.username.value);
+
+				if (check==true) return true;
+					else return false;
+			}
+
+			function validateUsername(field){
+				if (field == ""){
+					check = false;
+					return document.getElementById("error3").innerHTML="No Username Was Entered";
+				}
+				else if (field.length < 5) {
+					check = false;
+					return document.getElementById("error3").innerHTML="Username Must be at least 5 Characters";
+				}
+				else if (/[^a-zA-Z0-9_-]/.test(field)){
+					check = false;
+				 	return document.getElementById("error3").innerHTML="Only a-z, A-Z, 0-9, - and _ allowed in Username";
+				}
+			}
+		</script>
+		<style type="text/css">
+			  	.button {
+				font: bold 15px Arial;
+				text-decoration: none;
+				background-color: #EEEEEE;
+				color: #333333;
+				padding: 2px 6px 2px 6px;
+				border-top: 1px solid #CCCCCC;
+				border-right: 1px solid #333333;
+				border-bottom: 1px solid #333333;
+				border-left: 1px solid #CCCCCC;
+				}
+				.alert{
+    		color: red;
+    		font-size:12px;
+    	}
+		</style>	
+</head>
+
+<body>
+	<form action="login.php" method="post" onSubmit="return validate(this)">
+	<table cellpadding="10px" align="center" style="background:gray; font-family: arial">
+	<caption>Login Form </caption>
+		
+		<tr> 
+			<td><label for="username">Username </label> </td>
+
+			<td><div id="error3" class="alert"></div>
+			: <input type="uname" id="username" name="username" /> 
+			</td>
+		</tr>
+		
+		<tr> 
+			<td><label for="password">Password </label> </td>
+			<td>: <input type="password" id="password" name="password" /> </td>
+		</tr>
+		
+		<tr> 
+			<td  align="middle"><a href="userRegistrationForm.html" class="button">Register</a></td>
+			<td  align="middle"><input type="submit" value="Login" /></td>
+		</tr>
+		</table>
+	</form>
+	
+</body>
+
+</html>

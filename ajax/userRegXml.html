@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head> </head>
+<body onload="showUsers()">
+	<form action="addUser.php" method="post">
+			<table align="center" cellpadding="10px" style="background: #aabbcc; font-family: Arial; font-size: 20px">
+				<caption>User Registration Form</caption>
+				<tr>
+					<td><label for="firstName">First Name</label></td>
+					<td>:<input type="text" id="firstName" name="firstName" /></td>
+				</tr>
+				<tr>
+					<td><label for="lastName">Last Name</label></td>
+					<td>:<input type="text" id="lastName" name="lastName" /></td>
+				</tr>
+				<tr>
+					<td><label for="dob">Date Of Birth</label></td>
+					<td>:<input type="Date" id="dob" name="dob" /></td>
+				</tr>
+				<tr>
+					<td><label for="gender">Gender</label></td>
+					<td>:<input type="radio" id="male" name="gender" value="Male" />
+					<label for="male">Male </label>
+					<input type="radio" id="female" name="gender" value="Female" /> 
+					<label for="f">Female </label>
+					<input type="radio" id="other" name="gender" value="Other" /> 
+					<label for="other">Other </label></td>
+				</tr>
+				<tr>
+					<td><label for="address">Address</label></td>
+					<td>:
+					<textarea rows="5" cols="35" id="address" name="address">
+					</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="postCode">Post Code</label></td>
+					<td>:<input type="text" id="postCode" name="postCode" /></td>
+				</tr>
+				<tr>
+					<td><label for="country">Country</label></td>
+					<td>:<input type="text" id="country" name="country" /></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email </label> </td>
+					<td>: <input type="email" id="email" name="email" /> </td>
+				</tr>
+				<tr>
+					<td><label for="phone">Phone</label></td>
+					<td>:<input type="text" id="phone" name="phone" /></td>
+				</tr>
+				<input type="hidden" id="userType" name="userType" value="user" />
+				<tr>
+					<td><label for="username">Username </label> </td>
+					<td>: <input type="uname" id="username" name="username" /> </td>
+
+				</tr>
+				<tr> 
+					<td><label for="password">Password </label> </td>
+					<td>: <input type="password" id="password" name="password" /> </td>
+				</tr>
+		
+				<tr> 
+					<td><label for="cpassword">Confirm Password </label> </td>
+					<td>: <input type="password" id="cpassword" name="cpassword" /> </td>
+				</tr>
+				<tr> 
+					<td colspan="2" align="center"><input type="submit" value="Register" /></td>
+				</tr>
+
+			</table>
+		</form>
+<script language="javascript">
+			function showUsers(){
+				var url;
+				url="userXml.php";
+				if(window.XMLHttpRequest){
+				//code  for modern browsers
+					request = new XMLHttpRequest();
+				}else{
+					//code for older version of internet explorer
+					request=new ActiveXObject("Microsoft.XMLHttp");
+				}
+				request.onreadystatechange=function(){
+					if(request.readyState==4 && request.status==200){
+						var text = "<tr><td>First Name</td><td>Last Name</td><td>Date of Birth</td><td>Gender</td><td>Address</td><td>Post Code</td><td>Country</td><td>E-mail</td><td>Phone</td><td>User Type</td><td>Username</td><td>Operation</td></tr>";
+						var elements,firstName,lastName,dob,gender,address,postCode, country,email,phone,userType,username;
+						
+						elements = request.responseXML.documentElement.getElementsByTagName("User");
+						
+						for(i=0; i<elements.length; i++){
+							firstName = elements[i].getElementsByTagName("firstName");
+							lastName = elements[i].getElementsByTagName("lastName");
+							dob = elements[i].getElementsByTagName("dob");
+							gender = elements[i].getElementsByTagName("gender");
+							address = elements[i].getElementsByTagName("address");
+							postCode = elements[i].getElementsByTagName("postCode");
+							country = elements[i].getElementsByTagName("country");
+							email = elements[i].getElementsByTagName("email");
+							phone = elements[i].getElementsByTagName("phone");
+							userType = elements[i].getElementsByTagName("userType");
+							username = elements[i].getElementsByTagName("username");
+							
+
+							text += "<tr><td>" + firstName[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + lastName[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + dob[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + gender[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + address[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + postCode[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + country[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + email[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + phone[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + userType[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + username[0].firstChild.nodeValue + "</td>";		
+							text += "<td><a href=removeUser.php?username=" + username[0].firstChild.nodeValue + ">Delete</a></td></tr>";
+						}
+						document.getElementById("userDetails").innerHTML = text;
+					}
+				}
+				request.open("GET",url, true);
+				request.send();
+			}
+		</script>
+<table id="userDetails" border="1" align="center"> </table>
+
+	
+</body>
+</html>

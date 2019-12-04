@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body onload="showAnimals()">
+		<form action="addAnimal.php" method="post" enctype="multipart/form-data">
+			<table align="center" cellpadding="10px" style="background: #00aa34; font-family: Arial; font-size: 25px; font-style: italic;">
+				<caption>New Animal</caption>
+				<tr>
+					<td><label for="animalName">Animal Name</label></td>
+					<td>:<input type="text" id="animalName" name="animalName" /></td>
+				</tr>
+				<tr>
+					<td><label for="sectionName">Section Name</label></td>
+					<td>:<input type="text" id="sectionName" name="sectionName" /></td>
+				</tr>
+				<tr>
+					<td><label for="about">About The Animal</label></td>
+					<td>:<textarea rows="5" cols="25" id="about" name="about">
+					</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="pic">Image </label></td>
+					<td>:<input type="file" id="pic" name="pic" /></td>
+				</tr>
+				
+				<tr>
+					<td><label for="howMuch">Amount of the Animal </label> </td>
+					<td>: <input type="uname" id="howMuch" name="howMuch" /> </td>
+
+				</tr>
+				<tr> 
+					<td colspan="2" align="center"><input type="submit" value="Add Animal" /></td>
+				</tr>
+
+
+			</table>
+		</form>
+		
+	<script language="javascript">
+			function showAnimals(){
+				var url;
+				url="animalXml.php";
+				if(window.XMLHttpRequest){
+				//code  for modern browsers
+					request = new XMLHttpRequest();
+				}else{
+					//code for older version of internet explorer
+					request=new ActiveXObject("Microsoft.XMLHttp");
+				}
+				request.onreadystatechange=function(){
+					if(request.readyState==4 && request.status==200){
+						var text = "<tr><td>Animal ID</td><td>Animal Name</td><td>Section Name</td><td>Animal Picture</td><td>About Animal</td><td>Number of Animal</td><td>Operation</td></tr>"; 
+						var elements,animalId,animalName,sectionName,pic,about,howMuch;
+						
+						elements = request.responseXML.documentElement.getElementsByTagName("Animal");
+						
+						for(i=0; i<elements.length; i++){
+							animalId = elements[i].getElementsByTagName("animalId");
+							animalName = elements[i].getElementsByTagName("animalName");
+							sectionName = elements[i].getElementsByTagName("sectionName");
+							pic = elements[i].getElementsByTagName("pic");
+							about = elements[i].getElementsByTagName("about");
+							howMuch = elements[i].getElementsByTagName("howMuch");
+						
+
+							text += "<tr><td>" + animalId[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + animalName[0].firstChild.nodeValue + "</td>";	
+							text += "<td>" + sectionName[0].firstChild.nodeValue + "</td>";
+							text += "<td><img src='../animals/" + pic[0].firstChild.nodeValue + " ' style='width: 300px;' /></td>";	
+							text += "<td>" + about[0].firstChild.nodeValue + "</td>";
+							text += "<td>" + howMuch[0].firstChild.nodeValue + "</td>";	
+									
+							text += "<td><a href=removeAnimal.php?animalId=" + animalId[0].firstChild.nodeValue + ">Delete</a></td></tr>";
+						}
+						document.getElementById("animalDetails").innerHTML = text;
+					}
+				}
+				request.open("GET",url, true);
+				request.send();
+			}
+		</script>
+
+	<table id="animalDetails" border="1" align="center"> </table>
+</body>
+</html>
